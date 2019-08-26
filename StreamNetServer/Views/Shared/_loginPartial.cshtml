@@ -1,0 +1,34 @@
+﻿@inject SignInManager<AppIdentityUser> _signInManager
+@inject UserManager<AppIdentityUser> _userManager
+@{
+    var user = await _userManager.GetUserAsync(User);
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@if (_signInManager.IsSignedIn(User))
+{
+    <div class="sign-in-braket">
+        <ul class="nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" asp-controller="Account" asp-action="MyProfile">
+                    <div><img class="profile-pic-thumbnail" src="@user.UserProfilePicture" /></div>
+                    <div>Hello! @user.UserName</div>
+                </a>
+                <a asp-controller="Account" asp-action="MyProfile">Profile</a>
+                <a asp-controller="Account" asp-action="Settings">Settings</a>
+                <a asp-controller="Account" asp-action="Logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="sign-in-braket">
+        <ul class="nav">
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Login">Login</a>
+            </li>
+        </ul>
+    </div>
+}

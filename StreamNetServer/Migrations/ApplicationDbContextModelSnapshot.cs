@@ -19,115 +19,295 @@ namespace StreamNetServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("StreamNetServer.Models.AudioMetaData", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Album")
-                        .HasMaxLength(50);
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                    b.Property<string>("AlbumArtist")
-                        .HasMaxLength(30);
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("Comments")
-                        .HasMaxLength(255);
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("ContributingArtists")
-                        .HasMaxLength(255);
+                    b.HasKey("Id");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.Property<DateTime>("DateModified");
+                    b.ToTable("AspNetRoles");
+                });
 
-                    b.Property<string>("FolderPath")
-                        .IsRequired()
-                        .HasMaxLength(255);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Genre")
-                        .HasMaxLength(25);
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("StreamNetServer.Entities.AppIdentityUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.Property<byte[]>("UserProfilePicture");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("StreamNetServer.Entities.AudioMetaData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Album");
+
+                    b.Property<string>("Artists");
+
+                    b.Property<bool>("AvailableToUsers");
+
+                    b.Property<byte[]>("CoverArt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("FileName")
+                        .IsRequired();
+
+                    b.Property<string>("Genre");
 
                     b.Property<TimeSpan>("Length");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<int>("Rating");
-
-                    b.Property<double>("Size");
-
-                    b.Property<string>("Subtitle")
-                        .HasMaxLength(50);
+                    b.Property<string>("MediaType")
+                        .IsRequired();
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                        .IsRequired();
 
-                    b.Property<DateTime>("Year");
+                    b.Property<string>("TrackNumber");
 
                     b.HasKey("Id");
 
                     b.ToTable("Music");
                 });
 
-            modelBuilder.Entity("StreamNetServer.Models.VideoMetaData", b =>
+            modelBuilder.Entity("StreamNetServer.Entities.Genre", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Comments");
+                    b.Property<string>("Description");
 
-                    b.Property<string>("ContributingArtists");
+                    b.Property<string>("GenreName");
 
-                    b.Property<DateTime>("DateCreated");
+                    b.HasKey("Id");
 
-                    b.Property<DateTime>("DateModified");
+                    b.ToTable("Genres");
+                });
 
-                    b.Property<string>("Directors");
+            modelBuilder.Entity("StreamNetServer.Entities.VideoMetaData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("FolderPath")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("Artists");
 
-                    b.Property<int>("FrameHeight");
+                    b.Property<bool>("AvailableToUsers");
 
-                    b.Property<int>("FrameWidth");
+                    b.Property<byte[]>("CoverArt");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("EpisodeNumber");
+
+                    b.Property<string>("FileName")
+                        .IsRequired();
 
                     b.Property<string>("Genre");
 
                     b.Property<TimeSpan>("Length");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255);
+                    b.Property<string>("MediaType")
+                        .IsRequired();
 
                     b.Property<int>("ParentalRating");
 
-                    b.Property<string>("ParentalRatingReason");
-
-                    b.Property<string>("Producers");
-
-                    b.Property<string>("Publisher");
-
-                    b.Property<int>("Rating");
-
-                    b.Property<double>("Size");
-
-                    b.Property<string>("Subtitle")
-                        .HasMaxLength(50);
+                    b.Property<string>("Series");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
-                    b.Property<string>("Writers");
-
-                    b.Property<DateTime>("Year");
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.ToTable("Videos");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("StreamNetServer.Entities.AppIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("StreamNetServer.Entities.AppIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StreamNetServer.Entities.AppIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("StreamNetServer.Entities.AppIdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
