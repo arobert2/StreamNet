@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StreamNetServer.Data;
 using StreamNetServer.Entities;
 using StreamNetServer.ExtensionMethod;
 using StreamNetServer.Models;
@@ -15,10 +16,14 @@ namespace StreamNetServer.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<AppIdentityUser> _userManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AdminController(UserManager<AppIdentityUser> userManager)
+        public AdminController(
+            UserManager<AppIdentityUser> userManager,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
+            _dbContext = dbContext;
         }
         /// <summary>
         /// Gets the Admin Dashboard
@@ -47,7 +52,7 @@ namespace StreamNetServer.Controllers
         /// <returns>Redirects to user list</returns>
         [Authorize(Roles = "administrator")]
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromForm] CreateUserViewModel createUserViewModel)
+        public async Task<IActionResult> CreateNewUser([FromForm] CreateUserViewModel createUserViewModel)
         {
             //Check default validation
             if (!ModelState.IsValid)
@@ -71,7 +76,7 @@ namespace StreamNetServer.Controllers
             //Return view with model state.
             return View(ModelState);
         }
-
+        [Authorize(Roles = "administrator")]
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
@@ -86,23 +91,85 @@ namespace StreamNetServer.Controllers
             }
             return View(userprofiles);
         }
-
-        [HttpGet]
+        [Authorize(Roles = "administrator")]
+        [HttpGet("{id}")]
         public IActionResult SetPermissions(Guid id)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
             var userprofile = Mapper.Map<SetPermissionsViewModel>(user);
             return View(userprofile);
         }
-
+        [Authorize(Roles = "administrator")]
         [HttpPost]
-        public async Task<IActionResult> SetUserAttributes([FromForm] SetPermissionsViewModel setpermvm)
+        public async Task<IActionResult> SetPermissions([FromForm] SetPermissionsViewModel setpermvm)
         {
             if (!ModelState.IsValid)
                 return View(setpermvm);
 
             var user = _userManager.Users.FirstOrDefault(u => u.Id == setpermvm.Id);
+            var roles = await _userManager.GetRolesAsync(user);
+            IdentityResult resPerm = new IdentityResult();
+            if (setpermvm.Administrator)
+            {
+                if (!roles.Contains("administrator"))
+                    resPerm = await _userManager.AddToRoleAsync(user, "administrator");
+            }
+            else
+            {
+                if (roles.Contains("administrator"))
+                    resPerm = await _userManager.RemoveFromRoleAsync(user, "administrator");
+            }
 
+            if (!resPerm.Succeeded)
+                foreach (var e in resPerm.Errors)
+                    ModelState.AddModelError(e.Code, e.Description);
+
+            IdentityResult resLock = new IdentityResult();
+            var locked = await _userManager.IsLockedOutAsync(user);
+            if(setpermvm.Locked)
+            {
+                if (locked)
+                    resLock = await _userManager.SetLockoutEnabledAsync(user, true);
+            }
+            else
+            {
+                if (!locked)
+                    resLock = await _userManager.SetLockoutEnabledAsync(user, false);
+            }
+
+            if (!resLock.Succeeded)
+                foreach (var e in resLock.Errors)
+                    ModelState.AddModelError(e.Code, e.Description);
+
+            if (!resLock.Succeeded || !resPerm.Succeeded)
+                return View(setpermvm);
+
+            return Redirect(nameof(UserList));
+
+        }
+        [Authorize(Roles = "administrator")]
+        [HttpGet("{id}")]
+        public IActionResult UpdateVideoContent(Guid id)
+        {
+            var videoMetaData = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
+            if (videoMetaData == null)
+                return NotFound();
+
+            var videoMetaDataViewModel = Mapper.Map<VideoMetaDataViewModel>(videoMetaData);
+            return View(videoMetaDataViewModel);
+        }
+        [Authorize(Roles = "administrator")]
+        [HttpPost()]
+        public IActionResult UpdateVideoContent([FromForm] VideoMetaDataViewModel vmdviewmodel)
+        {
+            if (!ModelState.IsValid)
+                return View(vmdviewmodel);
+
+            var videometadata = Mapper.Map<VideoMetaData>(vmdviewmodel);
+            _dbContext.Videos.Update(videometadata);
+            if (_dbContext.SaveChanges() > 0)
+                throw new Exception("Failed to save to database!");
+            return RedirectToAction("Index", "Movies");
         }
     }
 }

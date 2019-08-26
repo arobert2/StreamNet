@@ -71,9 +71,11 @@ namespace StreamNetServer
                 cfg.CreateMap<Entities.AudioMetaData, Models.MediaReadViewModel>();
                 cfg.CreateMap<Entities.AppIdentityUser, Models.UserProfileViewModel>();
                 cfg.CreateMap<Entities.AppIdentityUser, Models.UserProfileViewModel>();
+                cfg.CreateMap<Entities.VideoMetaData, Models.VideoMetaDataViewModel>();
 
                 //ViewModel to Entity
                 cfg.CreateMap<Models.CreateUserViewModel, Entities.AppIdentityUser>();
+                cfg.CreateMap<Models.VideoMetaDataViewModel, Entities.VideoMetaData>();
 
                 //General Data to models
                 cfg.CreateMap<List<string>, Models.UserProfileViewModel>()
