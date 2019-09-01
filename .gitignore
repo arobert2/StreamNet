@@ -342,4 +342,6 @@ healthchecksdb
 #EFData
 StreamNetServer/Migrations/
 StreamNetServer/Migrations/ApplicationDbContextModelSnapshot.cs
-/Migrations
+/Migrations/
+/StreamNetServer.bak/
+/StreamNet.Server/Migrations

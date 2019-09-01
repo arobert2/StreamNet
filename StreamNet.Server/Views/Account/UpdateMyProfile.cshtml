@@ -1,0 +1,32 @@
+﻿@model StreamNet.Server.Models.UserProfileViewModel
+@{
+    ViewData["Title"] = "UpdateMyProfile";
+}
+
+<div class="profile-header">@Model.UserName</div>
+<div class="profile-pic">
+    <img src="@Model.UserProfilePictureBase64" />
+</div>
+<input type="hidden" value="@Model.Roles" />
+<div class="profile-data">@Model.Roles</div>
+
+<form method="post">
+    <input type="hidden" asp-for="@Model.UserName" />
+    <input type="hidden" asp-for="@Model.Email" />
+    <input type="hidden" asp-for="@Model.Roles" />
+    <input type="hidden" asp-for="@Model.UserProfilePictureBase64" />
+
+    <div class="form-group">
+        <label asp-for="@Model.Website" class="form-label"></label>
+        <input type=text asp-for="@Model.Website" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="profile-data">@Model.About</div>
+        <input type="text" multiple asp-for="@Model.About" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="form-control" />
+    </div>
+</form>
+<a asp-action="MyProfile">Back To Profile</a>
+

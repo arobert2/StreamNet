@@ -1,0 +1,16 @@
+﻿@model StreamNet.Server.Models.UserProfileViewModel
+@{
+    ViewData["Title"] = "MyProfile";
+}
+
+<div class="profile-frame">
+    <div class="profile-data">@Model.UserName</div>
+    <div class="profile-pic">
+        <img src="@Model.UserProfilePictureBase64" />
+    </div>
+    <div class="profile-data">@Model.Roles</div>
+    <div class="profile-data">@Model.Email</div>
+    <div class="profile-data">@Model.Website</div>
+    <div class="profile-data">@Model.About</div>
+</div>
+
