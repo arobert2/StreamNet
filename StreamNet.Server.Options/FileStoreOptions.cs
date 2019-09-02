@@ -1,10 +1,11 @@
 ﻿using StreamNet.Server.ExtensionMethod;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StreamNet.Server.Services.Options
+namespace StreamNet.Server.Options
 {
     public class FileStoreOptions
     {
@@ -17,6 +18,6 @@ namespace StreamNet.Server.Services.Options
         public string AudioPath { get => _audioPath; set { _audioPath = value.ReplaceUserProfileVariable(); } }
         public string DumpPath { get => _dumpPath; set { _dumpPath = value.ReplaceUserProfileVariable(); } }
         public string RejectedPath { get => _rejectedPath; set { _rejectedPath = value.ReplaceUserProfileVariable(); } }
-        public string ProfileContent { get => ProfileContent; set { _profileContent = value.ReplaceUserProfileVariable(); } }
+        public string ProfileContent { get => _profileContent; set { _profileContent = value.ReplaceUserProfileVariable(); } }
     }
 }

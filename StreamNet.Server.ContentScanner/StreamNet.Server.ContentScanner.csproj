@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
@@ -9,7 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.Server.ExtensionsMethods.csproj" />
+    <ProjectReference Include="..\StreamNet.Server.Options\StreamNet.Server.Options.csproj" />
+    <ProjectReference Include="..\StreamNetServer.Entities\StreamNet.Server.DomainEntities.csproj" />
   </ItemGroup>
 
 </Project>

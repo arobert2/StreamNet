@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace StreamNet.Server.Controllers
 {
+    [Authorize(Roles = "administrator")]
     public class AdminController : Controller
     {
         private readonly UserManager<AppIdentityUser> _userManager;

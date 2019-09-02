@@ -61,7 +61,7 @@ namespace StreamNet.Server.Controllers
             return View(login);
 
         }
-        [Authorize(Roles = "user, administrator")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
@@ -69,20 +69,20 @@ namespace StreamNet.Server.Controllers
             var profileViewModel = Mapper.Map<UserProfileViewModel>(user);
             return View(profileViewModel);
         }
-        [Authorize(Roles = "user, administrator")]
+        [Authorize]
         [HttpGet]
         public IActionResult Settings()
         {
             return View();
         }
-        [Authorize(Roles = "user, administrator")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(Login));
         }
-        [Authorize(Roles = "user, administrator")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> UpdateMyProfile()
         {
@@ -94,7 +94,7 @@ namespace StreamNet.Server.Controllers
             userprofviewmodel = Mapper.Map(roles, typeof(List<string>), typeof(UserProfileViewModel)) as UserProfileViewModel;
             return View(userprofviewmodel);
         }
-        [Authorize(Roles = "user, administrator")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpdateMyProfile([FromForm] UserProfileViewModel userprofvm)
         {

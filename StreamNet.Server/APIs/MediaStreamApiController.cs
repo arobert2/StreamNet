@@ -35,15 +35,6 @@ namespace StreamNet.Server.APIs
             var mediaStream = mediaReader.MemoryStream;
             return new FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
         }
-        [HttpGet("Music/{id}")]
-        public async Task<FileStreamResult> GetAudioStream(Guid id)
-        {
-            var audioinfo = _dbContext.Music.FirstOrDefault(v => v.Id == id);
-            var mediaReader = _mediaReaderFactory.CreateAudioReadStream(audioinfo.Id, audioinfo.FileName);
-            await mediaReader.ReadMedia();
-            var mediaStream = mediaReader.MemoryStream;
-            return new FileStreamResult(mediaReader.MemoryStream, audioinfo.MediaType);
-        }
         [HttpGet("Videos/{genre}")]
         public IActionResult GetVideosByGenre(string genre)
         {

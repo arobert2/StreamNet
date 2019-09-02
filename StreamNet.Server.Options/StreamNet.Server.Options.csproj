@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ConnectionString.json" />
+    <None Remove="FileStoreOptions.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ConnectionString.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FileStoreOptions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.Server.ExtensionsMethods.csproj" />
+  </ItemGroup>
+
+</Project>

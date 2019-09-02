@@ -4,7 +4,7 @@ using StreamNet.Server.DomainEntities.Data;
 
 namespace StreamNet.Server.Controllers
 {
-    [Authorize(Roles = "user, administrator")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _dbContext;

@@ -10,7 +10,7 @@ using StreamNet.Server.DomainEntities.Data;
 using StreamNet.Server.DomainEntities.Entities;
 using StreamNet.Server.ExtensionMethod;
 using StreamNet.Server.Services;
-using StreamNet.Server.Services.Options;
+using StreamNet.Server.Options;
 using System;
 using System.Collections.Generic;
 
@@ -39,7 +39,6 @@ namespace StreamNet.Server
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.Configure<FileStoreOptions>(Configuration.GetSection("FileStoreOptions"));
 
             services.AddIdentity<AppIdentityUser, IdentityRole<Guid>>()
                 .AddDefaultTokenProviders()

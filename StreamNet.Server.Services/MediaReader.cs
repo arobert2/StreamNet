@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StreamNet.Server.Services
 {
-    public class MediaReader : IDisposable
+    public class MediaReader : IMediaStream
     {
         private FileStream _fileStream;
         public string Path { get; set; }

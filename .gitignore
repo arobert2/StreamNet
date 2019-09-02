@@ -345,3 +345,4 @@ StreamNetServer/Migrations/ApplicationDbContextModelSnapshot.cs
 /Migrations/
 /StreamNetServer.bak/
 /StreamNet.Server/Migrations
+/StreamNetServer.Entities/Migrations

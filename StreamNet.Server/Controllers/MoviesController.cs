@@ -11,17 +11,18 @@ using System.Threading.Tasks;
 
 namespace StreamNet.Server.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly MediaStreamFactory _mediaReaderFactory;
-
+        
         public MoviesController(ApplicationDbContext dbContext, MediaStreamFactory mediaStreamFactory)
         {
             _dbContext = dbContext;
             _mediaReaderFactory = mediaStreamFactory;
         }
-        [Authorize(Roles = "user, administrator")]
+        [HttpGet]
         public IActionResult Index()
         {
             var movies = _dbContext.Videos;
@@ -29,7 +30,7 @@ namespace StreamNet.Server.Controllers
             return View(videoViewModel);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> VideoPlayerAsync(Guid id)
+        public async Task<IActionResult> VideoPlayer(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
             var mediaReader = _mediaReaderFactory.CreateVideoReadStream(videoinfo.Id, videoinfo.FileName);

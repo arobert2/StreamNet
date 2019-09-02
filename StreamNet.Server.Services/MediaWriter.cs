@@ -6,23 +6,21 @@ using System.Threading.Tasks;
 
 namespace StreamNet.Server.Services
 {
-    public class MediaWriter : IDisposable
+    public class MediaWriter : IMediaStream
     {
-        private FileStream _fileStream;
         public string Path { get; set; }
-        public MemoryStream MemoryStream { get; private set; }
+        public FileStream FileStream { get; private set; }
 
         public MediaWriter(string filePath)
         {
             Path = filePath;
         }
 
-        public async Task WriteMedia(Stream stream)
+        public void WriteMedia(Stream stream)
         {
-            if (!File.Exists(Path))
+            if (File.Exists(Path))
                 throw new FileNotFoundException("File was already found on server.");
-            _fileStream = new FileStream(Path, FileMode.Create, FileAccess.Write);
-            await stream.CopyToAsync(_fileStream);
+            FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write);
         }
 
         ~MediaWriter()
@@ -32,8 +30,7 @@ namespace StreamNet.Server.Services
 
         public void Dispose()
         {
-            _fileStream.Dispose();
-            MemoryStream.Dispose();
+            FileStream.Dispose();
         }
     }
 }

@@ -38,5 +38,13 @@ namespace StreamNet.Server.ExtensionMethod
             return newpath;
 
         }
+
+        public static IEnumerable<string> GetFileNames(this IEnumerable<string> paths)
+        {
+            List<string> filenames = new List<string>();
+            foreach (var p in paths)
+                filenames.Add(Path.GetFileName(p));
+            return filenames.ToArray();
+        }
     }
 }
