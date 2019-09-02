@@ -9,6 +9,7 @@ using StreamNet.Server.DomainEntities.Entities;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Linq;
 using StreamNet.Server.ExtensionMethod;
+using System.Security.Cryptography;
 
 namespace StreamNet.Server.ContentScanner
 {
@@ -30,7 +31,7 @@ namespace StreamNet.Server.ContentScanner
             //Make folders if they don't exist.
             InitializeFileSystem();
             //Create DB entries and copy files to correct locations.
-            foreach (var fp in Directory.GetFiles(_fileStoreOptions.DumpPath).GetFileNames())
+            foreach (var fp in Directory.GetFiles(_fileStoreOptions.DumpPath))
             {
                 try
                 {
@@ -40,9 +41,9 @@ namespace StreamNet.Server.ContentScanner
                 {
                     System.Diagnostics.Debug.WriteLine(ex.MediaType + " Is not a compatible media type.");
                     //Rejected path
-                    string rejectpath = Path.Combine(_fileStoreOptions.RejectedPath, fp);
+                    string rejectpath = Path.Combine(_fileStoreOptions.RejectedPath, Path.GetFileName(fp));
                     //Move rejected file
-                    File.Move(Path.Combine(_fileStoreOptions.DumpPath, fp), rejectpath);
+                    File.Move(fp, rejectpath);
                     continue;
                 }
                 catch(Exception ex)
@@ -55,7 +56,6 @@ namespace StreamNet.Server.ContentScanner
         private static void CopyFileToMediaLibrary(string path)
         {
             string mediaType = string.Empty;
-            string filepath = Path.Combine(_fileStoreOptions.DumpPath, path);
             new FileExtensionContentTypeProvider()
                 .TryGetContentType(Path.Combine(_fileStoreOptions.DumpPath + path), out mediaType);
             if (!mediaType.CompatibilityCheck())
@@ -65,13 +65,15 @@ namespace StreamNet.Server.ContentScanner
             {
                 Title = Path.GetFileNameWithoutExtension(path),
                 FileName = Path.GetFileName(path),
-                MediaType = mediaType
+                MediaType = mediaType,
+                FileSize = new FileInfo(path).Length,
+                MD5 = path.GetMd5()
             };
             _dbContext.Videos.Add(movieEntity);
             if (_dbContext.SaveChanges() > 0)
                 throw new Exception("failed to save DB entry");
-            string successpath = Path.Combine(Path.Combine(_fileStoreOptions.VideoPath, movieEntity.Id.ToString()), path);
-            File.Move(filepath, successpath);
+            string successpath = Path.Combine(Path.Combine(_fileStoreOptions.VideoPath, movieEntity.Id.ToString()), Path.GetFileName(path));
+            File.Move(path, successpath);
         }
 
         private static void InitializeFileSystem()

@@ -15,10 +15,6 @@ namespace StreamNet.Server.DomainEntities.Data
         /// </summary>
         public DbSet<VideoMetaData> Videos { get; set; }
         /// <summary>
-        /// Represents your music library
-        /// </summary>
-        public DbSet<AudioMetaData> Music { get; set; }
-        /// <summary>
         /// Genres currently in library
         /// </summary>
         public DbSet<Genre> Genres { get; set; }

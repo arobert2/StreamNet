@@ -26,5 +26,9 @@ namespace StreamNet.Server.DomainEntities.Entities
         public string MediaType { get; set; }
         public ParentalRating ParentalRating { get; set; }
         public bool AvailableToUsers { get; set; }
+        [Required]
+        public long FileSize { get; set; }
+        [Required]
+        public string MD5 { get; set; }
     }
 }

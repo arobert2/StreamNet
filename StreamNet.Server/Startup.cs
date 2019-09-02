@@ -71,7 +71,6 @@ namespace StreamNet.Server
                  */               
                 //to MediaReadViewModel 
                 cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.MediaReadViewModel>();
-                cfg.CreateMap<DomainEntities.Entities.AudioMetaData, Models.MediaReadViewModel>();
                 //to UserProfileViewModel
                 cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();
                 cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();

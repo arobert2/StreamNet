@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace StreamNet.Server.ExtensionMethod
@@ -45,6 +46,19 @@ namespace StreamNet.Server.ExtensionMethod
             foreach (var p in paths)
                 filenames.Add(Path.GetFileName(p));
             return filenames.ToArray();
+        }
+
+        public static string GetMd5(this string path)
+        {
+            var md5data = new byte[0];
+            using (var md5 = MD5.Create())
+            {
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    md5data = md5.ComputeHash(fs);
+                }
+            }
+            return BitConverter.ToString(md5data).Replace("-", "").ToLowerInvariant();
         }
     }
 }

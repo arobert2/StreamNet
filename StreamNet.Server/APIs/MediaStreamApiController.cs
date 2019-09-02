@@ -44,32 +44,5 @@ namespace StreamNet.Server.APIs
             var videoViewModels = Mapper.Map<IEnumerable<MediaReadViewModel>>(videos);
             return Ok(videoViewModels);
         }
-        [HttpGet("Music/{artist}")]
-        public IActionResult GetMusicByArtist(string artist)
-        {
-            var music = _dbContext.Music.Where(a => a.Artists.Contains(artist));
-            if (music == null)
-                return NotFound();
-            var musicViewModel = Mapper.Map<IEnumerable<MediaReadViewModel>>(music);
-            return Ok(musicViewModel);
-        }
-        [HttpGet("Music/{album}")]
-        public IActionResult GetMusicByAlbum(string album)
-        {
-            var music = _dbContext.Music.Where(a => a.Album == album);
-            if (music == null)
-                return NotFound();
-            var musicViewModel = Mapper.Map<IEnumerable<MediaReadViewModel>>(music);
-            return Ok(musicViewModel);
-        }
-        [HttpGet("Music/{genre}")]
-        public IActionResult GetMusicByGenre(string genre)
-        {
-            var music = _dbContext.Music.Where(a => a.Genre.Contains(genre));
-            if (music == null)
-                return NotFound();
-            var musicViewModel = Mapper.Map<IEnumerable<MediaReadViewModel>>(music);
-            return Ok(musicViewModel);
-        }
     }
 }
