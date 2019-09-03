@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using StreamNet.Server.DomainEntities.Entities;
+using StreamNet.DomainEntities.Entities;
 using StreamNet.Server.Models;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using StreamNet.Server.ExtensionMethod;
-using StreamNet.Server.Options;
+﻿using StreamNet.ExtensionMethod;
+using StreamNet.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using StreamNet.Server.DomainEntities.Entities;
+using StreamNet.DomainEntities.Entities;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

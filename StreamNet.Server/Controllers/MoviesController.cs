@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StreamNet.Server.DomainEntities.Data;
+using StreamNet.DomainEntities.Data;
 using StreamNet.Server.Models;
 using StreamNet.Server.Services;
 using System;

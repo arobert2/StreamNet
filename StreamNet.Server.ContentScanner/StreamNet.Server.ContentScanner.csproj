@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StreamNet.Server.Options\StreamNet.Server.Options.csproj" />
-    <ProjectReference Include="..\StreamNetServer.Entities\StreamNet.Server.DomainEntities.csproj" />
+    <ProjectReference Include="..\StreamNet.Server.Options\StreamNet.Options.csproj" />
+    <ProjectReference Include="..\StreamNetServer.Entities\StreamNet.DomainEntities.csproj" />
   </ItemGroup>
 
 </Project>

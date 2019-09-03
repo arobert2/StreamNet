@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StreamNet.Server.DomainEntities.Entities
+namespace StreamNet.DomainEntities.Entities
 {
     public enum ParentalRating { G, PG, PG13, R, NR }
     public class VideoMetaData : IMediaMetaData

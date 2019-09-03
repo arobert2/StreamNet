@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace StreamNet.Server.Options
+namespace StreamNet.Options
 {
     public static class OptionsFactory
     {

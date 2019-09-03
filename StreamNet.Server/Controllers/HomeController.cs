@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StreamNet.Server.DomainEntities.Data;
+using StreamNet.DomainEntities.Data;
 
 namespace StreamNet.Server.Controllers
 {

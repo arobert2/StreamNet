@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.Server.ExtensionsMethods.csproj" />
+    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.ExtensionsMethods.csproj" />
   </ItemGroup>
 
 </Project>

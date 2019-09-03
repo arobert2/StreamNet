@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using StreamNet.Server.DomainEntities.Entities;
+using StreamNet.DomainEntities.Entities;
 using System;
 
 namespace StreamNet.Server

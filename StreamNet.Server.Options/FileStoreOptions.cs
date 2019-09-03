@@ -1,11 +1,11 @@
-﻿using StreamNet.Server.ExtensionMethod;
+﻿using StreamNet.ExtensionMethod;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StreamNet.Server.Options
+namespace StreamNet.Options
 {
     public class FileStoreOptions
     {

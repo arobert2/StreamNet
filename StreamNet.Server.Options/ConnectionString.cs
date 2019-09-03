@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StreamNet.Server.Options
+namespace StreamNet.Options
 {
     public class ConnectionString
     {

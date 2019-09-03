@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StreamNet.Server.ExtensionMethod
+namespace StreamNet.ExtensionMethod
 {
     public static class StringExtensionMethods
     {

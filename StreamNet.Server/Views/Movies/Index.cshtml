@@ -1,7 +1,14 @@
-﻿
+﻿@model IEnumerable<EditVideoMetaDataViewModel>
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div>
+    @foreach(var v in Model)
+    {
+        <div>@v.Title</div>
+        <div>@v.Genre</div>
+        <div>@v.Description</div>
+    }
+</div>
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace StreamNet.Server.ExtensionMethod
+namespace StreamNet.ExtensionMethod
 { 
     public static class FileTypeExtensionMethods
     {
@@ -21,10 +21,9 @@ namespace StreamNet.Server.ExtensionMethod
             {".mp3", "audio/mpeg" }
         };
 
-        public static bool CompatibilityCheck(this string filepath)
+        public static bool CompatibilityCheck(this string mimeType)
         {
-            var ext = Path.GetExtension(filepath);
-            return _mimeTypo.Keys.Contains(ext);
+            return _mimeTypo.Values.Contains(mimeType);
         }
 
         public static string GetMimeTypeFromExtension(this string filepath)

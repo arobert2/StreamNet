@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-StreamNet.Server-14AE4BA0-BA7F-43EA-BDA8-BE988823EBDD</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
@@ -13,9 +17,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.Server.ExtensionsMethods.csproj" />
+    <ProjectReference Include="..\StreamNet.Server.ExtensionsMethods\StreamNet.ExtensionsMethods.csproj" />
     <ProjectReference Include="..\StreamNet.Server.Services\StreamNet.Server.Services.csproj" />
-    <ProjectReference Include="..\StreamNetServer.Entities\StreamNet.Server.DomainEntities.csproj" />
+    <ProjectReference Include="..\StreamNetServer.Entities\StreamNet.DomainEntities.csproj" />
   </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy .\bin\Debug\netcoreapp2.2\ConnectionString.json .\ConnectionString.json /Y&#xD;&#xA;copy .\\bin\Debug\netcoreapp2.2\FileStoreOptions.json .\FileStoreOptions.json /Y" />
+  </Target>
 
 </Project>

@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StreamNet.Server.DomainEntities.Data;
-using StreamNet.Server.DomainEntities.Entities;
-using StreamNet.Server.ExtensionMethod;
+using StreamNet.DomainEntities.Data;
+using StreamNet.DomainEntities.Entities;
+using StreamNet.ExtensionMethod;
 using StreamNet.Server.Services;
-using StreamNet.Server.Options;
+using StreamNet.Options;
 using System;
 using System.Collections.Generic;
 
@@ -35,16 +35,19 @@ namespace StreamNet.Server
                 options.MinimumSameSitePolicy = SameSiteMode.None;
                 
             });
+            var connectionString = OptionsFactory.GetConnectionString().DefaultConnection;
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    //Configuration.GetConnectionString("DefaultConnection")));
+                    connectionString));
 
             services.AddIdentity<AppIdentityUser, IdentityRole<Guid>>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<MediaStreamFactory>();
+            services.AddTransient(typeof(FileStoreOptions), isp => OptionsFactory.GetFileStoreOptions());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

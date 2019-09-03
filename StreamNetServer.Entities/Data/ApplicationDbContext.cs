@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using StreamNet.Server.DomainEntities.Entities;
+using StreamNet.DomainEntities.Entities;
 using System;
 
-namespace StreamNet.Server.DomainEntities.Data
+namespace StreamNet.DomainEntities.Data
 {
     public class ApplicationDbContext : IdentityDbContext<AppIdentityUser,IdentityRole<Guid>,Guid>
     {
