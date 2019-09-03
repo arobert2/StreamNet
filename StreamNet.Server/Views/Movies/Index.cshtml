@@ -6,9 +6,16 @@
 <div>
     @foreach(var v in Model)
     {
-        <div>@v.Title</div>
-        <div>@v.Genre</div>
-        <div>@v.Description</div>
+    <div class="media rounded bg-light">
+        <img class="align-self-start m-3" src="@v.CoverArtBase64" alt="@v.Title" style="height: 128px; width: 64px;" />
+        <div class="media-body h-100 border-left border-right pl-3 pr-3 pb-5">
+            <h5 class="mt-3 mb-1">@v.Title</h5>
+            <span style="font-size: 10px;">@v.Genre</span><br />
+            <span style="font-size: 10px;">Rated: @v.ParentalRating.ToString()</span><br />
+            @v.Description
+        </div>
+        <a class="align-self-start mr-3 ml-3 mt-3" asp-action="UpdateVideoContent" asp-controller="Admin" asp-route-id="@v.Id"><img style="height: 32px; width: 32px;" src="~/img/edit.png" /></a>
+    </div>
     }
 </div>
 

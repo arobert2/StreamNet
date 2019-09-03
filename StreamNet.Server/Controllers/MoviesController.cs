@@ -22,6 +22,7 @@ namespace StreamNet.Server.Controllers
             _dbContext = dbContext;
             _mediaReaderFactory = mediaStreamFactory;
         }
+        [Authorize(Roles = "administrator"]
         [HttpGet]
         public IActionResult Index()
         {
@@ -29,7 +30,7 @@ namespace StreamNet.Server.Controllers
             var videoViewModel = Mapper.Map<IEnumerable<EditVideoMetaDataViewModel>>(movies);
             return View(videoViewModel);
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<IActionResult> VideoPlayer(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);

@@ -148,7 +148,7 @@ namespace StreamNet.Server.Controllers
 
         }
         [Authorize(Roles = "administrator")]
-        [HttpGet("{id}")]
+        [HttpGet]
         public IActionResult UpdateVideoContent(Guid id)
         {
             var videoMetaData = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
@@ -158,7 +158,7 @@ namespace StreamNet.Server.Controllers
             return View(videoMetaDataViewModel);
         }
         [Authorize(Roles = "administrator")]
-        [HttpPost()]
+        [HttpPost]
         public IActionResult UpdateVideoContent([FromForm] EditVideoMetaDataViewModel vmdviewmodel)
         {
             if (!ModelState.IsValid)
