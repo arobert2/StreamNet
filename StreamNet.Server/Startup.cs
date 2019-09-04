@@ -78,7 +78,10 @@ namespace StreamNet.Server
                 cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();
                 cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();
                 //to EditVideoMetaDataViewModel
-                cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.EditVideoMetaDataViewModel>();
+                cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.EditVideoMetaDataViewModel>()
+                    .ForMember(dest => dest.CoverArtBase64, opt => opt.MapFrom(src =>
+                        String.Format("data:{0};base64,{1}", src.CoverArtContentType,
+                            Convert.ToBase64String(src.CoverArt))));
 
                 /*********************************
                  *      ViewModel to Entity

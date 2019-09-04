@@ -22,7 +22,7 @@ namespace StreamNet.Server.Controllers
             _dbContext = dbContext;
             _mediaReaderFactory = mediaStreamFactory;
         }
-        [Authorize(Roles = "administrator"]
+        [Authorize(Roles = "administrator")]
         [HttpGet]
         public IActionResult Index()
         {

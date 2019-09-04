@@ -30,5 +30,6 @@ namespace StreamNet.DomainEntities.Entities
         public long FileSize { get; set; }
         [Required]
         public string MD5 { get; set; }
+        public string CoverArtContentType { get; set; }
     }
 }
