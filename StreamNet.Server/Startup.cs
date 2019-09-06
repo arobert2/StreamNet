@@ -13,6 +13,7 @@ using StreamNet.Server.Services;
 using StreamNet.Options;
 using System;
 using System.Collections.Generic;
+using StreamNet.ExtensionsMethods;
 
 namespace StreamNet.Server
 {
@@ -90,7 +91,9 @@ namespace StreamNet.Server
                 cfg.CreateMap<Models.CreateUserViewModel, DomainEntities.Entities.AppIdentityUser>();
                 cfg.CreateMap<Models.UserProfileViewModel, DomainEntities.Entities.AppIdentityUser>();
                 //To VideoMetaData
-                cfg.CreateMap<Models.EditVideoMetaDataViewModel, DomainEntities.Entities.VideoMetaData>();
+                cfg.CreateMap<Models.EditVideoMetaDataViewModel, DomainEntities.Entities.VideoMetaData>()
+                    .ForMember(dest => dest.CoverArt, opt => opt.MapFrom(src => src.CoverArtFile.ToByteArray()))
+                    .ForMember(dest => dest.CoverArtContentType, opt => opt.MapFrom(src => src.CoverArtFile.ContentType));
                 /*********************************
                  *      Data to ViewModel
                  */

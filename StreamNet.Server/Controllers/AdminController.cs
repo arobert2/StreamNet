@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StreamNet.DomainEntities.Data;
 using StreamNet.DomainEntities.Entities;
+using StreamNet.ExtensionsMethods;
 using StreamNet.Server.Models;
 using System;
 using System.Collections.Generic;
@@ -165,7 +166,9 @@ namespace StreamNet.Server.Controllers
                 return View(vmdviewmodel);
 
             var videometadata = Mapper.Map<VideoMetaData>(vmdviewmodel);
-            _dbContext.Videos.Update(videometadata);
+            var videometadatafromentity = _dbContext.Videos.FirstOrDefault(v => v.Id == videometadata.Id);
+            videometadatafromentity = videometadatafromentity.Update(videometadata);
+            _dbContext.Update(videometadatafromentity);
             if (_dbContext.SaveChanges() > 0)
                 throw new Exception("Failed to save to database!");
             return RedirectToAction("Index", "Movies");

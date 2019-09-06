@@ -1,4 +1,5 @@
-﻿using StreamNet.DomainEntities.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using StreamNet.DomainEntities.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,5 +19,7 @@ namespace StreamNet.Server.Models
         public string CoverArtBase64 { get; set; }
         public ParentalRating ParentalRating { get; set; }
         public bool AvailableToUsers { get; set; }
+        public IFormFile CoverArtFile { get; set; }
+
     }
 }
