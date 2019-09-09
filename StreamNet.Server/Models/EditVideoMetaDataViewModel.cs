@@ -15,11 +15,13 @@ namespace StreamNet.Server.Models
         public string Artists { get; set; }
         public string Genre { get; set; }
         public string Series { get; set; }
+        [Display(Name = "Episode Number")]
         public int EpisodeNumber { get; set; }
         public string CoverArtBase64 { get; set; }
+        [Display(Name = "Parental Rating")]
         public ParentalRating ParentalRating { get; set; }
+        [Display(Name = "Available To  User")]
         public bool AvailableToUsers { get; set; }
-        public IFormFile CoverArtFile { get; set; }
 
     }
 }

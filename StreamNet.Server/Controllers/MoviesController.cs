@@ -6,6 +6,7 @@ using StreamNet.Server.Models;
 using StreamNet.Server.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,28 +17,20 @@ namespace StreamNet.Server.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly MediaStreamFactory _mediaReaderFactory;
+        private readonly FileRepository _fileRepository;
         
-        public MoviesController(ApplicationDbContext dbContext, MediaStreamFactory mediaStreamFactory)
+        public MoviesController(ApplicationDbContext dbContext, MediaStreamFactory mediaStreamFactory, FileRepository fileRepo)
         {
             _dbContext = dbContext;
             _mediaReaderFactory = mediaStreamFactory;
-        }
-        [Authorize(Roles = "administrator")]
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var movies = _dbContext.Videos;
-            var videoViewModel = Mapper.Map<IEnumerable<EditVideoMetaDataViewModel>>(movies);
-            return View(videoViewModel);
+            _fileRepository = fileRepo;
         }
         [HttpGet]
-        public async Task<IActionResult> VideoPlayer(Guid id)
+        public FileStreamResult VideoPlayer(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-            var mediaReader = _mediaReaderFactory.CreateVideoReadStream(videoinfo.Id, videoinfo.FileName);
-            await mediaReader.ReadMedia();
-            var mediaStream = mediaReader.MemoryStream;
-            return new FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
+            var byteArray = _fileRepository.GetVideo(videoinfo);
+            return new FileStreamResult(new MemoryStream(byteArray), videoinfo.MediaType);         
         }
     }
 }

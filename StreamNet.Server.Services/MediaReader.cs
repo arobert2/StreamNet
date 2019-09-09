@@ -8,32 +8,32 @@ namespace StreamNet.Server.Services
 {
     public class MediaReader : IMediaStream
     {
-        private FileStream _fileStream;
         public string Path { get; set; }
-        public MemoryStream MemoryStream { get; private set; }
+        //public MemoryStream MemoryStream { get; private set; }
 
         public MediaReader(string filePath)
         {
             Path = filePath;
+
         }
 
-        public async Task ReadMedia()
+        public MemoryStream ReadMedia()
         {
             if (!File.Exists(Path))
                 throw new FileNotFoundException("File was not found at path");
-            _fileStream = new FileStream(Path, FileMode.Open, FileAccess.Read);
-            await _fileStream.CopyToAsync(MemoryStream);
-        }
-
-        ~MediaReader()
-        {
-            Dispose();
+            using (var _fileStream = new NetworkFileStream(Path, FileMode.Open, FileAccess.Read))
+            {
+                using (var _memoryStream = new MemoryStream())
+                {
+                    _fileStream.CopyTo(_memoryStream);
+                    return _memoryStream;
+                }
+            }
         }
 
         public void Dispose()
         {
-            _fileStream.Dispose();
-            MemoryStream.Dispose();
+            //MemoryStream.Dispose();
         }
     }
 }

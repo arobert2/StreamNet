@@ -93,13 +93,18 @@ namespace StreamNet.Server.Controllers
             return View(userprofiles);
         }
         [Authorize(Roles = "administrator")]
-        [HttpGet("{id}")]
+        [HttpGet]
         public IActionResult SetPermissions(Guid id)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == id);
             var userprofile = Mapper.Map<SetPermissionsViewModel>(user);
             return View(userprofile);
         }
+        /// <summary>
+        /// Set user permissions
+        /// </summary>
+        /// <param name="setpermvm"></param>
+        /// <returns></returns>
         [Authorize(Roles = "administrator")]
         [HttpPost]
         public async Task<IActionResult> SetPermissions([FromForm] SetPermissionsViewModel setpermvm)
@@ -147,31 +152,6 @@ namespace StreamNet.Server.Controllers
 
             return Redirect(nameof(UserList));
 
-        }
-        [Authorize(Roles = "administrator")]
-        [HttpGet]
-        public IActionResult UpdateVideoContent(Guid id)
-        {
-            var videoMetaData = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-            if (videoMetaData == null)
-                return NotFound();
-            var videoMetaDataViewModel = Mapper.Map<EditVideoMetaDataViewModel>(videoMetaData);
-            return View(videoMetaDataViewModel);
-        }
-        [Authorize(Roles = "administrator")]
-        [HttpPost]
-        public IActionResult UpdateVideoContent([FromForm] EditVideoMetaDataViewModel vmdviewmodel)
-        {
-            if (!ModelState.IsValid)
-                return View(vmdviewmodel);
-
-            var videometadata = Mapper.Map<VideoMetaData>(vmdviewmodel);
-            var videometadatafromentity = _dbContext.Videos.FirstOrDefault(v => v.Id == videometadata.Id);
-            videometadatafromentity = videometadatafromentity.Update(videometadata);
-            _dbContext.Update(videometadatafromentity);
-            if (_dbContext.SaveChanges() > 0)
-                throw new Exception("Failed to save to database!");
-            return RedirectToAction("Index", "Movies");
         }
     }
 }

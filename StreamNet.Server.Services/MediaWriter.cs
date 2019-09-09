@@ -23,11 +23,6 @@ namespace StreamNet.Server.Services
             FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write);
         }
 
-        ~MediaWriter()
-        {
-            Dispose();
-        }
-
         public void Dispose()
         {
             FileStream.Dispose();

@@ -6,6 +6,7 @@ using StreamNet.Server.Models;
 using StreamNet.Server.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,13 +28,11 @@ namespace StreamNet.Server.APIs
             _dbContext = dbContext;
         }
         [HttpGet("Video/{id}")]
-        public async Task<FileStreamResult> GetVideoStream(Guid id)
+        public IActionResult GetVideoStream(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-            var mediaReader = _mediaReaderFactory.CreateVideoReadStream(videoinfo.Id,videoinfo.FileName);
-            await mediaReader.ReadMedia();
-            var mediaStream = mediaReader.MemoryStream;
-            return new FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
+            var mediaReader = _mediaReaderFactory.GetReadStream(videoinfo.Id,videoinfo.FileName);
+            return Ok();//FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
         }
         [HttpGet("Videos/{genre}")]
         public IActionResult GetVideosByGenre(string genre)

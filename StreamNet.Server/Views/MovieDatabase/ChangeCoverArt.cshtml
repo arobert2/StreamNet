@@ -1,0 +1,27 @@
+﻿@model ChangeCoverArtModel
+@{
+    ViewData["Title"] = "ChangeCoverArt";
+}
+
+<h1>ChangeCoverArt</h1>
+<div class="text-center">
+    <img src="@Model.Image" class="mb-3" style="width:240px; height:360px;"/>
+</div>
+<form enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div class="custom-file">
+        <input class="custom-file-input" type="file" asp-for="NewImage" id="imageUpload"/>
+        <label class="custom-file-label" for="imageUpload">Choose File...</label>
+    </div>
+    <div class="form-group container mt-3">
+        <div class="row">
+            <div class="col-sm">
+                <input type="submit" value="Upload" class="form-control btn-primary" formmethod="post" />
+            </div>
+            <div class="col-sm">
+                <button asp-controller="MovieDatabase" asp-action="Index" class="form-control btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -7,6 +7,7 @@
   <ItemGroup>
     <None Remove="ConnectionString.json" />
     <None Remove="FileStoreOptions.json" />
+    <None Remove="VideoRepositoryOptions.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -14,6 +15,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FileStoreOptions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="VideoRepositoryOptions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

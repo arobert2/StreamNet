@@ -48,7 +48,9 @@ namespace StreamNet.Server
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<MediaStreamFactory>();
-            services.AddTransient(typeof(FileStoreOptions), isp => OptionsFactory.GetFileStoreOptions());
+            services.AddSingleton<FileRepository>();
+            services.AddTransient(typeof(FileStoreOptions), fso => new OptionsFactory().GetOptions<FileStoreOptions>());
+            services.AddTransient(typeof(VideoRepositoryOptions), vro => new OptionsFactory().GetOptions<VideoRepositoryOptions>());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -81,7 +83,11 @@ namespace StreamNet.Server
                 //to EditVideoMetaDataViewModel
                 cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.EditVideoMetaDataViewModel>()
                     .ForMember(dest => dest.CoverArtBase64, opt => opt.MapFrom(src =>
-                        String.Format("data:{0};base64,{1}", src.CoverArtContentType,
+                        string.Format("data:{0};base64,{1}", src.CoverArtContentType,
+                            Convert.ToBase64String(src.CoverArt))));
+                cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.ChangeCoverArtModel>()
+                    .ForMember(dest => dest.Image, opt => opt.MapFrom(src =>
+                        string.Format("data:{0};base64,{1}", src.CoverArtContentType,
                             Convert.ToBase64String(src.CoverArt))));
 
                 /*********************************
@@ -91,9 +97,12 @@ namespace StreamNet.Server
                 cfg.CreateMap<Models.CreateUserViewModel, DomainEntities.Entities.AppIdentityUser>();
                 cfg.CreateMap<Models.UserProfileViewModel, DomainEntities.Entities.AppIdentityUser>();
                 //To VideoMetaData
-                cfg.CreateMap<Models.EditVideoMetaDataViewModel, DomainEntities.Entities.VideoMetaData>()
-                    .ForMember(dest => dest.CoverArt, opt => opt.MapFrom(src => src.CoverArtFile.ToByteArray()))
-                    .ForMember(dest => dest.CoverArtContentType, opt => opt.MapFrom(src => src.CoverArtFile.ContentType));
+                cfg.CreateMap<Models.EditVideoMetaDataViewModel, DomainEntities.Entities.VideoMetaData>();
+                //.ForMember(dest => dest.CoverArt, opt => opt.MapFrom(src => src.CoverArtFile.ToByteArray()))
+                //.ForMember(dest => dest.CoverArtContentType, opt => opt.MapFrom(src => src.CoverArtFile.ContentType));
+                cfg.CreateMap<Models.ChangeCoverArtModel, DomainEntities.Entities.VideoMetaData>()
+                    .ForMember(dest => dest.CoverArt, opt => opt.MapFrom(src => src.NewImage.ToByteArray()))
+                    .ForMember(dest => dest.CoverArtContentType, opt => opt.MapFrom(src => src.NewImage.ContentType));
                 /*********************************
                  *      Data to ViewModel
                  */
