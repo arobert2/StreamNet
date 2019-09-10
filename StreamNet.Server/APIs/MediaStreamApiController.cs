@@ -18,20 +18,16 @@ namespace StreamNet.Server.APIs
     public class MediaStreamApiController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly MediaStreamFactory _mediaReaderFactory;
 
         public MediaStreamApiController(
-            ApplicationDbContext dbContext,
-            MediaStreamFactory mediaReaderFactory)
+            ApplicationDbContext dbContext)
         {
-            _mediaReaderFactory = mediaReaderFactory;
             _dbContext = dbContext;
         }
         [HttpGet("Video/{id}")]
         public IActionResult GetVideoStream(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-            var mediaReader = _mediaReaderFactory.GetReadStream(videoinfo.Id,videoinfo.FileName);
             return Ok();//FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
         }
         [HttpGet("Videos/{genre}")]

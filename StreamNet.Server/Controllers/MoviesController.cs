@@ -16,13 +16,11 @@ namespace StreamNet.Server.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly MediaStreamFactory _mediaReaderFactory;
         private readonly FileRepository _fileRepository;
         
-        public MoviesController(ApplicationDbContext dbContext, MediaStreamFactory mediaStreamFactory, FileRepository fileRepo)
+        public MoviesController(ApplicationDbContext dbContext, FileRepository fileRepo)
         {
             _dbContext = dbContext;
-            _mediaReaderFactory = mediaStreamFactory;
             _fileRepository = fileRepo;
         }
         [HttpGet]

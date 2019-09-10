@@ -47,7 +47,6 @@ namespace StreamNet.Server
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddTransient<MediaStreamFactory>();
             services.AddSingleton<FileRepository>();
             services.AddTransient(typeof(FileStoreOptions), fso => new OptionsFactory().GetOptions<FileStoreOptions>());
             services.AddTransient(typeof(VideoRepositoryOptions), vro => new OptionsFactory().GetOptions<VideoRepositoryOptions>());
