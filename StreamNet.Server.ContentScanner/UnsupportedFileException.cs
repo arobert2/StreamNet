@@ -7,10 +7,12 @@ namespace StreamNet.Server.ContentScanner
     public class UnsupportedFileException : Exception
     {
         public string MediaType { get; set; }
+        public string FileName { get; set; }
 
-        public UnsupportedFileException(string mediaType, string message) : base(message)
+        public UnsupportedFileException(string filename, string mediaType, string message) : base(message)
         {
             MediaType = mediaType;
+            FileName = filename;
         }
     }
 }

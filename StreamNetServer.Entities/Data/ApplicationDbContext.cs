@@ -18,5 +18,6 @@ namespace StreamNet.DomainEntities.Data
         /// Genres currently in library
         /// </summary>
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<AdminMessage> AdminMessages { get; set; }
     }
 }

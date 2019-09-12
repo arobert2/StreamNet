@@ -30,7 +30,6 @@ namespace StreamNet.Server.Controllers
         /// Gets the Admin Dashboard
         /// </summary>
         /// <returns>The admin Dashboard View</returns>
-        [Authorize(Roles = "administrator")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -40,7 +39,6 @@ namespace StreamNet.Server.Controllers
         /// Creates a new user GET
         /// </summary>
         /// <returns>New user view</returns>
-        [Authorize(Roles = "administrator")]
         [HttpGet]
         public IActionResult CreateNewUser()
         {
@@ -51,7 +49,6 @@ namespace StreamNet.Server.Controllers
         /// </summary>
         /// <param name="createUserViewModel">New user form</param>
         /// <returns>Redirects to user list</returns>
-        [Authorize(Roles = "administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateNewUser([FromForm] CreateUserViewModel createUserViewModel)
         {
@@ -77,7 +74,6 @@ namespace StreamNet.Server.Controllers
             //Return view with model state.
             return View(ModelState);
         }
-        [Authorize(Roles = "administrator")]
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
@@ -92,7 +88,6 @@ namespace StreamNet.Server.Controllers
             }
             return View(userprofiles);
         }
-        [Authorize(Roles = "administrator")]
         [HttpGet]
         public IActionResult SetPermissions(Guid id)
         {
@@ -105,7 +100,6 @@ namespace StreamNet.Server.Controllers
         /// </summary>
         /// <param name="setpermvm"></param>
         /// <returns></returns>
-        [Authorize(Roles = "administrator")]
         [HttpPost]
         public async Task<IActionResult> SetPermissions([FromForm] SetPermissionsViewModel setpermvm)
         {
@@ -152,6 +146,12 @@ namespace StreamNet.Server.Controllers
 
             return Redirect(nameof(UserList));
 
+        }
+        [HttpGet]
+        public IActionResult Messages(int index = 0, int total = 10)
+        {
+            var messages = _dbContext.AdminMessages.Skip(index).Take(total);
+            return View(messages);
         }
     }
 }

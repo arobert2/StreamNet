@@ -10,14 +10,14 @@ using System.Timers;
 
 namespace StreamNet.Server.Services
 {
-    public class FileRepository
+    public class StreamCache
     {
         private Dictionary<Guid, byte[]> _cachedVideos { get; set; }
         private Dictionary<Guid, Timer> _cacheTimeout { get; set; }
         private readonly FileStoreOptions _fileStoreOptions;
         private readonly VideoRepositoryOptions _videoRepositoryOptions;
 
-        public FileRepository(FileStoreOptions fso, VideoRepositoryOptions vro)
+        public StreamCache(FileStoreOptions fso, VideoRepositoryOptions vro)
         {
             _fileStoreOptions = fso;
             _videoRepositoryOptions = vro;
@@ -59,7 +59,7 @@ namespace StreamNet.Server.Services
         private void ElapseEvent(Guid id)
         {
             _cachedVideos.Remove(id);
-            _cacheTimeout.Remove(id);
+            _cacheTimeout[id].Stop();
         }
     }
 }

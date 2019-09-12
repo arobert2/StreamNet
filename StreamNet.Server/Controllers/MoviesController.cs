@@ -16,9 +16,9 @@ namespace StreamNet.Server.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly FileRepository _fileRepository;
+        private readonly StreamCache _fileRepository;
         
-        public MoviesController(ApplicationDbContext dbContext, FileRepository fileRepo)
+        public MoviesController(ApplicationDbContext dbContext, StreamCache fileRepo)
         {
             _dbContext = dbContext;
             _fileRepository = fileRepo;

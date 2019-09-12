@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
+<h2 class="text-center">Admin Control Panel</h2>
+<form>
+    <div class="d-flex flex-column align-items-center w-100">
+            <button class="btn-light w-25 mb-3 p-2" asp-action="Messages">Messages</button>
+            <button class="btn-light w-25 mb-3 p-2" asp-action="UserList">Users</button>
+            <button class="btn-light w-25 mb-3 p-2" asp-action="CreateNewUser">New User</button>
+            <button class="btn-light w-25 mb-3 p-2" asp-controller="MovieDatabase" asp-action="Index">Movie Database</button>
+    </div>
+</form>

@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using StreamNet.DomainEntities.Data;
+using StreamNet.DomainEntities.Entities;
+using StreamNet.ExtensionMethod;
 using StreamNet.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using StreamNet.DomainEntities.Entities;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Linq;
-using StreamNet.ExtensionMethod;
-using System.Security.Cryptography;
 
 namespace StreamNet.Server.ContentScanner
 {
@@ -56,7 +52,8 @@ namespace StreamNet.Server.ContentScanner
                 }
                 catch (UnsupportedFileException ex )                                    //If unsupported type move to rejected path.
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.MediaType + " Is not a compatible media type.");
+                    var adminMessage = CreateAdminMessage(string.Format("Failed to add {0} to database. File type {1} incompatible.", ex.FileName, ex.MediaType));
+                    _dbContext.AdminMessages.Add(adminMessage);
                     //Rejected path
                     string rejectpath = Path.Combine(_fileStoreOptions.RejectedPath, Path.GetFileName(fp));
                     //Move rejected file
@@ -66,7 +63,8 @@ namespace StreamNet.Server.ContentScanner
                 }
                 catch(Exception ex)                                                     //Halt program if other error.
                 {
-                    System.Diagnostics.Debug.WriteLine(ex);
+                    var adminMessage = CreateAdminMessage(string.Format("ContentScanner failed with the following error: {0}", ex.Message));
+                    _dbContext.AdminMessages.Add(adminMessage);
                     error = true;
                     throw ex;
                 }
@@ -79,11 +77,28 @@ namespace StreamNet.Server.ContentScanner
 
         private static void CopyFileToMediaLibrary(string path)
         {
+            var movieEntity = CreateVideoMetaData(path);
+            _dbContext.Videos.Add(movieEntity);
+
+            var adminMessage = CreateAdminMessage(string.Format("A new video called {0} has been added to the data base.", movieEntity.Title));
+            _dbContext.AdminMessages.Add(adminMessage);
+
+            if (_dbContext.SaveChanges() < 0)
+                throw new Exception("failed to save DB entry");
+            string successdirectory = Path.Combine(_fileStoreOptions.VideoPath, movieEntity.Id.ToString());
+            string successpath = Path.Combine(successdirectory, Path.GetFileName(path));
+            if (!Directory.Exists(successdirectory))
+                Directory.CreateDirectory(successdirectory);
+            File.Move(path, successpath);
+        }
+
+        private static VideoMetaData CreateVideoMetaData(string path)
+        {
             string mediaType = string.Empty;
             new FileExtensionContentTypeProvider()
                 .TryGetContentType(Path.Combine(_fileStoreOptions.DumpPath + path), out mediaType);
             if (!mediaType.CompatibilityCheck())
-                throw new UnsupportedFileException(mediaType, "Incompatible media type");
+                throw new UnsupportedFileException(Path.GetFileName(path), mediaType, "Incompatible media type");
 
             var movieEntity = new VideoMetaData()
             {
@@ -95,14 +110,18 @@ namespace StreamNet.Server.ContentScanner
                 CoverArt = _defaultImagedata,
                 CoverArtContentType = "image/png"
             };
-            _dbContext.Videos.Add(movieEntity);
-            if (_dbContext.SaveChanges() > 1)
-                throw new Exception("failed to save DB entry");
-            string successdirectory = Path.Combine(_fileStoreOptions.VideoPath, movieEntity.Id.ToString());
-            string successpath = Path.Combine(successdirectory, Path.GetFileName(path));
-            if (!Directory.Exists(successdirectory))
-                Directory.CreateDirectory(successdirectory);
-            File.Move(path, successpath);
+            return movieEntity;
+        }
+
+        private static AdminMessage CreateAdminMessage(string message)
+        {
+            var adminMessage = new AdminMessage()
+            {
+                Body = message,
+                Read = false,
+                TimeStamp = DateTime.Now
+            };
+            return adminMessage;
         }
 
         private static void InitializeFileSystem()

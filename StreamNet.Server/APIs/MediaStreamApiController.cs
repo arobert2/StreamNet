@@ -12,23 +12,27 @@ using System.Threading.Tasks;
 
 namespace StreamNet.Server.APIs
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
-    [Authorize(Roles = "user, administrator")]
+    [Authorize]
     public class MediaStreamApiController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly StreamCache _streamCache;
 
         public MediaStreamApiController(
-            ApplicationDbContext dbContext)
+            ApplicationDbContext dbContext,
+            StreamCache streamCache)
         {
             _dbContext = dbContext;
+            _streamCache = streamCache;
         }
-        [HttpGet("Video/{id}")]
-        public IActionResult GetVideoStream(Guid id)
+        [HttpGet("Play/{id}")]
+        public FileStreamResult GetVideoStream(Guid id)
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
-            return Ok();//FileStreamResult(mediaReader.MemoryStream, videoinfo.MediaType);
+            var video = _streamCache.GetVideo(videoinfo);
+            return new FileStreamResult(new MemoryStream(video),videoinfo.MediaType);
         }
         [HttpGet("Videos/{genre}")]
         public IActionResult GetVideosByGenre(string genre)
@@ -38,6 +42,11 @@ namespace StreamNet.Server.APIs
                 return NotFound();
             var videoViewModels = Mapper.Map<IEnumerable<MediaReadViewModel>>(videos);
             return Ok(videoViewModels);
+        }
+        [HttpGet("Video/Test")]
+        public IActionResult Test()
+        {
+            return Ok("This is a test");
         }
     }
 }

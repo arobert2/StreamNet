@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace StreamNet.DomainEntities.Entities
 {
-    public class AdminMessages
+    public class AdminMessage
     {
         public Guid Id { get; set; }
-        public string Subject { get; set; }
         public string Body { get; set; }
+        public bool Read { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
 }

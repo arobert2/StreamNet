@@ -47,7 +47,7 @@ namespace StreamNet.Server
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddSingleton<FileRepository>();
+            services.AddSingleton<StreamCache>();
             services.AddTransient(typeof(FileStoreOptions), fso => new OptionsFactory().GetOptions<FileStoreOptions>());
             services.AddTransient(typeof(VideoRepositoryOptions), vro => new OptionsFactory().GetOptions<VideoRepositoryOptions>());
 
@@ -123,6 +123,9 @@ namespace StreamNet.Server
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                //routes.MapRoute(
+                    //name: "apiroute",
+                    //)
             });
         }
     }
