@@ -52,7 +52,7 @@ namespace StreamNet.Server.ContentScanner
                 }
                 catch (UnsupportedFileException ex )                                    //If unsupported type move to rejected path.
                 {
-                    var adminMessage = CreateAdminMessage(string.Format("Failed to add {0} to database. File type {1} incompatible.", ex.FileName, ex.MediaType));
+                    var adminMessage = CreateAdminMessage(string.Format("Failed to add {0} to database. File type {1} incompatible.", ex.FileName, ex.MediaType),ErrorStatus.error);
                     _dbContext.AdminMessages.Add(adminMessage);
                     //Rejected path
                     string rejectpath = Path.Combine(_fileStoreOptions.RejectedPath, Path.GetFileName(fp));
@@ -63,7 +63,7 @@ namespace StreamNet.Server.ContentScanner
                 }
                 catch(Exception ex)                                                     //Halt program if other error.
                 {
-                    var adminMessage = CreateAdminMessage(string.Format("ContentScanner failed with the following error: {0}", ex.Message));
+                    var adminMessage = CreateAdminMessage(string.Format("ContentScanner failed with the following error: {0}", ex.Message),ErrorStatus.error);
                     _dbContext.AdminMessages.Add(adminMessage);
                     error = true;
                     throw ex;
@@ -80,7 +80,7 @@ namespace StreamNet.Server.ContentScanner
             var movieEntity = CreateVideoMetaData(path);
             _dbContext.Videos.Add(movieEntity);
 
-            var adminMessage = CreateAdminMessage(string.Format("A new video called {0} has been added to the data base.", movieEntity.Title));
+            var adminMessage = CreateAdminMessage(string.Format("A new video called {0} has been added to the data base.", movieEntity.Title), ErrorStatus.info);
             _dbContext.AdminMessages.Add(adminMessage);
 
             if (_dbContext.SaveChanges() < 0)
@@ -113,13 +113,14 @@ namespace StreamNet.Server.ContentScanner
             return movieEntity;
         }
 
-        private static AdminMessage CreateAdminMessage(string message)
+        private static AdminMessage CreateAdminMessage(string message, ErrorStatus status)
         {
             var adminMessage = new AdminMessage()
             {
                 Body = message,
                 Read = false,
-                TimeStamp = DateTime.Now
+                TimeStamp = DateTime.Now,
+                Status = status
             };
             return adminMessage;
         }

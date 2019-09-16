@@ -1,0 +1,28 @@
+﻿@model IEnumerable<AdminMessage>
+@using StreamNet.DomainEntities.Entities
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h1>Admin Messages</h1>
+<div>
+    @foreach(var am in Model)
+    {
+        <div>
+            @if (am.Status == ErrorStatus.error)
+            {
+            <div><img src="~/img/error.png" /></div>
+            }else
+                if(am.Status == ErrorStatus.info)
+            {
+            <div><img src="~/img/info.png" /></div>
+            }else
+                if(am.Status == ErrorStatus.warning)
+            {
+            <div><img src="~/img/warning.png" /></div>
+            }
+            <div>@am.Body</div>
+            <div>@am.TimeStamp</div>
+        </div>
+    }
+</div>

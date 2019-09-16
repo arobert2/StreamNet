@@ -1,7 +1,42 @@
-﻿
+﻿@model CreateUserViewModel
 @{
     ViewData["Title"] = "CreateNewUser";
 }
 
 <h1>CreateNewUser</h1>
-
+<form id="createNewUserForm">
+    <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text" asp-for="UserName"></label>
+        </div>
+        <input class="form-control" asp-for="UserName" />
+    </div>
+    <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text" asp-for="Email"></label>
+        </div>
+        <input class="form-control" asp-for="Email" />
+    </div>
+    <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text" asp-for="Password"></label>
+        </div>
+        <input type="password" class="form-control" asp-for="Password" />
+    </div>
+    <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <label class="input-group-text" asp-for="PasswordCheck"></label>
+        </div>
+        <input type="password" class="form-control" asp-for="PasswordCheck" />
+    </div>
+    <div class="form-group container">
+        <div class="row">
+            <div class="col-sm">
+                <input class="form-control btn-primary" type="submit" value="Create" formmethod="post" />
+            </div>
+            <div class="col-sm">
+                <button class="form-control btn-secondary" asp-controller="Admin" asp-action="Index">Cancel</button>
+            </div>
+        </div>
+    </div>
+</form>
