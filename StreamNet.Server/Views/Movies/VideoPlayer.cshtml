@@ -1,0 +1,36 @@
+﻿@model VideoMetaData
+@{
+    Layout = "";
+    ViewData["Title"] = "VideoPlayer";
+    var url = "/Movies/Video/" + Model.Id;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <link href="~/css/video.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div class="video-container">
+        <video id="my-player"
+               class="video-js vjs-fill"
+               controls
+               preload="auto"
+               poster="//vjs.zencdn.net/v/oceans.png"
+               data-setup='{}'>
+            <source src=@url type="video/mp4" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">
+                    supports HTML5 video
+                </a>
+            </p>
+        </video>
+        </div>
+</body>
+</html>
+<!-- unpkg : use the latest version of Video.js -->
+
+<script src="https://unpkg.com/video.js/dist/video.min.js"></script>

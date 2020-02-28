@@ -77,8 +77,10 @@ namespace StreamNet.Server
                 //to MediaReadViewModel 
                 cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.MediaReadViewModel>();
                 //to UserProfileViewModel
-                cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();
-                cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>();
+                cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>()
+                    .ForMember(dest => dest.UserProfilePictureBase64, opt => opt.MapFrom(src =>
+                        string.Format("data:{0};base64,{1}", src.UserProfilePictureFileType,
+                            Convert.ToBase64String(src.UserProfilePicture))));
                 //to EditVideoMetaDataViewModel
                 cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.EditVideoMetaDataViewModel>()
                     .ForMember(dest => dest.CoverArtBase64, opt => opt.MapFrom(src =>
@@ -88,6 +90,10 @@ namespace StreamNet.Server
                     .ForMember(dest => dest.Image, opt => opt.MapFrom(src =>
                         string.Format("data:{0};base64,{1}", src.CoverArtContentType,
                             Convert.ToBase64String(src.CoverArt))));
+                cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.ChangeCoverArtModel>()
+                    .ForMember(dest => dest.Image, opt => opt.MapFrom(src =>
+                        string.Format("data:{0};base64,{1}", src.UserProfilePictureFileType,
+                            Convert.ToBase64String(src.UserProfilePicture))));
 
                 /*********************************
                  *      ViewModel to Entity

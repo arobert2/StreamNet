@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StreamNet.DomainEntities.Entities;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -82,10 +83,23 @@ namespace StreamNet.Server
 
         private async Task<IdentityResult> CreateUser()
         {
+            byte[] _defaultImagedata;
+
+            using (FileStream fs = new FileStream("defaultprofile.png", FileMode.Open, FileAccess.Read))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    fs.CopyTo(ms);
+                    _defaultImagedata = ms.ToArray();
+                }
+            }
+
             var user = new AppIdentityUser()
             {
                 UserName = DEFAULT_USER_NAME,
-                Email = DEFAULT_USER_NAME + "@StreemNet.com"
+                Email = DEFAULT_USER_NAME + "@StreamNet.com",
+                UserProfilePicture = _defaultImagedata,
+                UserProfilePictureFileType = "image/png"
             };
 
             var res = await _userManager.CreateAsync(user, DEFAULT_PASSWORD);

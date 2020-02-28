@@ -6,8 +6,15 @@
 <h1>UserList</h1>
 @foreach(var prof in Model)
 {
+    var imgSrc = String.Format("data:image/gif;base64,{0}", prof.UserProfilePictureBase64);
     <div>
-
+        <div class="d-flex flex-row justify-content-between">
+            <img src=@prof.UserProfilePictureBase64>
+            <div>@prof.UserName</div>
+            <div>
+                    @prof.Roles
+            </div>
+        </div>
     </div>
 }
 

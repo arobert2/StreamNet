@@ -7,8 +7,8 @@
 <div class="profile-pic">
     <img src="@Model.UserProfilePictureBase64" />
 </div>
-<input type="hidden" value="@Model.Roles" />
-<div class="profile-data">@Model.Roles</div>
+<!--<input type="hidden" value="@Model.Roles" />
+<div class="profile-data">@Model.Roles</div>-->
 
 <form method="post">
     <input type="hidden" asp-for="@Model.UserName" />
@@ -21,7 +21,7 @@
         <input type=text asp-for="@Model.Website" class="form-control" />
     </div>
     <div class="form-group">
-        <div class="profile-data">@Model.About</div>
+        <label asp-for="@Model.About" class="form-label"></label>
         <input type="text" multiple asp-for="@Model.About" class="form-control" />
     </div>
     <div class="form-group">

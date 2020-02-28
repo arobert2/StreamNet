@@ -10,14 +10,7 @@ namespace StreamNet.ExtensionMethod
     public static class FileTypeExtensionMethods
     {
         private static Dictionary<string, string> _mimeTypo = new Dictionary<string, string>{
-            {".flv", "video/x-flv" },
             {".mp4", "video/mp4" },
-            {".m3u8","application/x-mpegURL" },
-            {".ts","video/MP2T" },
-            {".3gp","video/3gpp" },
-            {".mov", "video/quicktime" },
-            {".avi", "video/x-msvideo" },
-            {".wmv", "video/x-ms-wmv" },
             {".mp3", "audio/mpeg" }
         };
 

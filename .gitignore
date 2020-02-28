@@ -346,3 +346,5 @@ StreamNetServer/Migrations/ApplicationDbContextModelSnapshot.cs
 /StreamNetServer.bak/
 /StreamNet.Server/Migrations
 /StreamNetServer.Entities/Migrations
+/bower_components
+/.vscode

@@ -11,7 +11,7 @@ namespace StreamNet.Server.Models
         public Guid Id { get; set; }
         public string UserName { get; set; }
         public string UserProfilePictureBase64 { get; set; }
-        public string Roles { get; set; }
+        public List<string> Roles { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
         public string About { get; set; }

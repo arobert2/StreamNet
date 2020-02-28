@@ -1,7 +1,7 @@
 {
-  "VideoPath": "%UserProfile%\\StreamNet\\MediaLibrary\\Videos",
-  "AudioPath": "%UserProfile%\\StreamNet\\MediaLibrary\\Music",
-  "DumpPath": "%UserProfile%\\StreamNet\\NewMedia",
-  "RejectedPath": "%UserProfile%\\StreamNet\\Rejected",
-  "ProfileContent": "%UserProfile%\\StreamNet\\Profiles"
+  "VideoPath": "D:\\StreamNet\\MediaLibrary\\Movies",
+  "AudioPath": "D:\\StreamNet\\MediaLibrary\\Music",
+  "DumpPath": "D:\\StreamNet\\MediaLibrary\\NewMedia",
+  "RejectedPath": "D:\\StreamNet\\MediaLibrary\\Rejected",
+  "ProfileContent": "D:\\StreamNet\\MediaLibrary\\Profiles"
 }

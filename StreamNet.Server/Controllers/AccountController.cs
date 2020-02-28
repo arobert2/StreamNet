@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StreamNet.DomainEntities.Entities;
+using StreamNet.ExtensionsMethods;
 using StreamNet.Server.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -67,6 +69,7 @@ namespace StreamNet.Server.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var profileViewModel = Mapper.Map<UserProfileViewModel>(user);
+            profileViewModel.Roles = (await _userManager.GetRolesAsync(user)).ToList();
             return View(profileViewModel);
         }
         [Authorize]
@@ -101,8 +104,9 @@ namespace StreamNet.Server.Controllers
             if (!ModelState.IsValid)
                 return View(userprofvm);
 
-            var user = _userManager.Users.FirstOrDefault(u => u.Id == userprofvm.Id);
-            user = Mapper.Map(userprofvm, typeof(UserProfileViewModel), typeof(AppIdentityUser)) as AppIdentityUser;
+            var user = await _userManager.GetUserAsync(User);
+            user.Website = userprofvm.Website;
+            user.About = userprofvm.About;
             var res = await _userManager.UpdateAsync(user);
             if (res.Succeeded)
                 return RedirectToAction(nameof(MyProfile));
@@ -116,6 +120,26 @@ namespace StreamNet.Server.Controllers
         public IActionResult AccessDenied()
         {
             return RedirectToAction(nameof(Login));
+        }
+        [HttpGet]
+        public async Task<IActionResult> ChangeProfilePicture()
+        {
+            var vmdEntity = await _userManager.GetUserAsync(User);
+            var ccam = Mapper.Map<ChangeCoverArtModel>(vmdEntity);
+            return View(ccam);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeProfilePicture([FromForm] ChangeCoverArtModel ccam)
+        {
+            if (!ModelState.IsValid)
+                return View(ccam);
+            var vmdEntity = await _userManager.GetUserAsync(User);
+            vmdEntity.UserProfilePicture = ccam.NewImage.ToByteArray();
+            vmdEntity.UserProfilePictureFileType = ccam.NewImage.ContentType;
+            var res = await _userManager.UpdateAsync(vmdEntity);
+            if (!res.Succeeded)
+                throw new Exception("Failed to save database!");
+            return RedirectToAction(nameof(MyProfile));
         }
     }
 }

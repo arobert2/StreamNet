@@ -2,15 +2,51 @@
 @{
     ViewData["Title"] = "MyProfile";
 }
-
+<nav class="nav">
+    <div class="nav-link"><a asp-action="UpdateMyProfile" asp-controller="Account">Edit Profile</a></div>
+    @if (User.IsInRole("administrator"))
+    {
+        <div class="nav-link">
+            <a asp-action="Index" asp-controller="Admin">Admin Control Center</a>
+        </div>
+    }
+</nav>
 <div class="profile-frame">
-    <div class="profile-data">@Model.UserName</div>
-    <div class="profile-pic">
-        <img src="@Model.UserProfilePictureBase64" />
+    <div class="profile-data card">
+        <div class="card-header">@Model.UserName</div>
+        <div class="card-body container">
+            <div class="row">
+                <div class="profile-pic pl-4 col col-3" style="border-right:solid 1px;">
+                    <img src="@Model.UserProfilePictureBase64" style="height: 256px; width:192px" />
+                    <div class="nav-link"><a asp-action="ChangeProfilePicture" asp-controller="Account">Change Profile Picture</a></div>
+                </div>
+                <div class="col">
+                    <div class="pl-2 col-auto d-flex flex-column">
+                        <div class="info-box">
+                            <div class="info-box-header">Roles</div>
+                            <div class="profile-data info-box-body">
+                                @foreach (var r in Model.Roles)
+                                {
+                                    <div>@r</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-box-header">Email</div>
+                            <div class="profile-data info-box-body">@Model.Email</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-box-header">Website</div>
+                            <div class="profile-data info-box-body">@Model.Website</div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-box-header">About</div>
+                            <div class="profile-data info-box-body">@Model.About</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="profile-data">@Model.Roles</div>
-    <div class="profile-data">@Model.Email</div>
-    <div class="profile-data">@Model.Website</div>
-    <div class="profile-data">@Model.About</div>
 </div>
 
