@@ -1,8 +1,25 @@
-﻿@{
+﻿@model Dictionary<string, List<MediaReadViewModel>>
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="movie-by-genre-container">
+        @foreach (var g in Model.Keys)
+        {
+            <div>
+                <div class="movie-scroll-header">@g</div>
+                <ul class="nav nav-pills nav-stacked movie-scroll">
+                    @foreach (var m in Model[g])
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="VideoPlayer" asp-controller="Movies" asp-route-id="@m.Id">
+                                <img src="@m.CoverArtBase64" alt="@m.Title" class="movie-icon"/>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>

@@ -67,3 +67,14 @@ body {
     margin-bottom:5px;
     border-top:solid 1px;
 }
+
+/*scroll maybe*/
+.movie-scroll {
+    height: 200px;
+    overflow-x: scroll;
+}
+
+.movie-icon {
+    height: 144px;
+    width: 96px;
+}

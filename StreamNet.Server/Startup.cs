@@ -75,7 +75,10 @@ namespace StreamNet.Server
                  *      Entity to ViewModel
                  */               
                 //to MediaReadViewModel 
-                cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.MediaReadViewModel>();
+                cfg.CreateMap<DomainEntities.Entities.VideoMetaData, Models.MediaReadViewModel>()
+                    .ForMember(dest => dest.CoverArtBase64, opt => opt.MapFrom(src =>
+                        string.Format("data:{0};base64,{1}", src.CoverArtContentType,
+                            Convert.ToBase64String(src.CoverArt))));
                 //to UserProfileViewModel
                 cfg.CreateMap<DomainEntities.Entities.AppIdentityUser, Models.UserProfileViewModel>()
                     .ForMember(dest => dest.UserProfilePictureBase64, opt => opt.MapFrom(src =>

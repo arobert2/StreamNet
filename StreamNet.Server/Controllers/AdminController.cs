@@ -77,13 +77,13 @@ namespace StreamNet.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
-            var users = _userManager.Users.OrderBy(u => u.UserName);
+            var users = _userManager.Users.OrderBy(u => u.UserName).ToList();
             var userprofiles = new List<UserProfileViewModel>();
             foreach(var u in users)
             {
                 var roles = await _userManager.GetRolesAsync(u);
                 var newuserprof = Mapper.Map<UserProfileViewModel>(u);
-                newuserprof = Mapper.Map(roles, typeof(List<string>), typeof(UserProfileViewModel)) as UserProfileViewModel;
+                newuserprof.Roles = roles.ToList();
                 userprofiles.Add(newuserprof);
             }
             return View(userprofiles);

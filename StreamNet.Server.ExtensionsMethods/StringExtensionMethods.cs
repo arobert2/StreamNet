@@ -15,5 +15,19 @@ namespace StreamNet.ExtensionMethod
                 sb.Append(s).Append(", ");
             return sb.ToString();
         }
+
+        public static string[] Unique(this string[] stringArray)
+        {
+            List<string> unique = new List<string>();
+            foreach (var s in stringArray)
+                if (!unique.Contains(s))
+                    unique.Add(s);
+            return unique.ToArray();
+        }
+
+        public static string[] DelimiterSplit(this string liststring, char delimiter)
+        {
+            return liststring.Split(delimiter);
+        }
     }
 }

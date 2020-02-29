@@ -35,12 +35,7 @@ namespace StreamNet.Server.Controllers
         {
             var videoinfo = _dbContext.Videos.FirstOrDefault(v => v.Id == id);
             var byteArray = _fileRepository.GetVideo(videoinfo);
-            //var videoPlayerViewModel = new VideoPlayerViewModel();
-            //videoPlayerViewModel.VideData = Mapper.Map<MediaReadViewModel>(videoinfo);
-            //videoPlayerViewModel.Video = string.Format("data:{0};base64,{1}", "application/octet-stream", Convert.ToBase64String(byteArray));
-            //return new FileStreamResult(new MemoryStream(byteArray), "application/octet-stream"); 
-            //return View(videoPlayerViewModel);
-            return new FileStreamResult(new MemoryStream(byteArray), videoinfo.MediaType);
+            return File(new MemoryStream(byteArray), videoinfo.MediaType, true);
         }
     }
 }

@@ -7,7 +7,7 @@
     @foreach(var v in Model)
     {
     <div class="media rounded bg-light">
-        <img class="align-self-start m-3" src="@v.CoverArtBase64" alt="@v.Title" style="height: 144px; width: 96px;" />
+        <img class="align-self-start m-3 movie-icon" src="@v.CoverArtBase64" alt="@v.Title" />
         <div class="media-body h-100 border-left border-right pl-3 pr-3 pb-5">
             <h5 class="mt-3 mb-1">@v.Title</h5>
             <span style="font-size: 10px;">@v.Genre</span><br />
