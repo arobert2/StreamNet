@@ -14,6 +14,7 @@ using StreamNet.Options;
 using System;
 using System.Collections.Generic;
 using StreamNet.ExtensionsMethods;
+using Microsoft.Extensions.Hosting;
 
 namespace StreamNet.Server
 {
@@ -51,16 +52,16 @@ namespace StreamNet.Server
             services.AddTransient(typeof(FileStoreOptions), fso => new OptionsFactory().GetOptions<FileStoreOptions>());
             services.AddTransient(typeof(VideoRepositoryOptions), vro => new OptionsFactory().GetOptions<VideoRepositoryOptions>());
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(o => o.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
