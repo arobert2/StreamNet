@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ConnectionString.json" />
-    <None Remove="FileStoreOptions.json" />
-    <None Remove="VideoRepositoryOptions.json" />
+    <None Remove="ConnectionStringExample.json" />
+    <None Remove="FileStoreOptionsExample.json" />
+    <None Remove="VideoRepositoryOptionsExample.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ConnectionString.json">
+    <Content Include="ConnectionStringExample.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FileStoreOptions.json">
+    <Content Include="FileStoreOptionsExample.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="VideoRepositoryOptions.json">
+    <Content Include="VideoRepositoryOptionsExample.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

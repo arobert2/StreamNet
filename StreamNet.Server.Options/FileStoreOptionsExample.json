@@ -1,0 +1,7 @@
+{
+  "VideoPath": "D:\\StreamNet\\MediaLibrary\\Movies",
+  "AudioPath": "D:\\StreamNet\\MediaLibrary\\Music",
+  "DumpPath": "D:\\StreamNet\\MediaLibrary\\NewMedia",
+  "RejectedPath": "D:\\StreamNet\\MediaLibrary\\Rejected",
+  "ProfileContent": "D:\\StreamNet\\MediaLibrary\\Profiles"
+}
