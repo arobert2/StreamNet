@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using StreamNet.DomainEntities.Data;
 using StreamNet.DomainEntities.Entities;
 using System;
@@ -18,7 +19,8 @@ namespace StreamNet.Server.CMS.Controllers
         {
             _dbContext = dbContext;
         }
- 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<VideoMetaData> Get()
         {
             return _dbContext.Videos;
